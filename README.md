@@ -158,9 +158,9 @@ def get_squares(d):
 
 #### False positives
 
-As the classifier generates a lot of false positives, I'm 2 tactics to reduce them:
+As the classifier generates a lot of false positives, I'm using 2 tactics to reduce them:
 
-1. Using overlapping search windows generated and adding up the results; after this using a threshold. This approach helps to filter some occasiaonal 'wiggling' negatives.
+1. Using overlapping search windows to generate and add up the results; after this I'm using a threshold. This approach helps to filter some occasionally appearing negatives.
 
 2. Summarizing the 'heat-map' for the last N-frames and using a threshold. This also helps to stabilize the true positives, as they are more likely to appear on almost every frame.
 
