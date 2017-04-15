@@ -64,18 +64,18 @@ The achieved score is 98% on the training set and 97% on the test set.
 My pipeline is working the following way.
 
 1. Generating window coordinates
-2. Crop chunk of the image
-3. Resize all of the chunks (32 x 32)
+2. Crop chunk from the image
+3. Resize the chunks (32 x 32)
 4. Make predictions of all the chunks
 5. Saving positives on a heat-map for the given frame
-6. Getting a moving sum for the heat-map for the last N frames
+6. Getting a moving sum of the heat-map for the last N frames
 7. Applying a threshold
-8. Finding 'islands' (linked areas of non-zeros) on the summarized and thresholded heat map
-9. Drawing boxes around these islands
+8. Finding 'islands' (linked areas of non-zeros) on the summarized and thresholded heat-map
+9. Drawing boxes around those islands
 
 #### Generating window coordinates
 
-For this I'm using a trivial algorithm. It is colled 3 times in order to get different window sizes.
+For this I'm using a trivial algorithm. It is called 3 times in order to get different window sizes.
 
 ```
     chunk_coords = []
@@ -99,7 +99,7 @@ def get_boxes(shape=(720, 1280), box_size=100, step=0.5 , top_crop=400, bottom_c
 
 #### Predictions
 
-For predictions I'm using the previously trained classifier.
+For predictions I'm using the previously trained classifier. It is important that the data from the chunks should be normalized.
 
 ```
 preds = clf.predict(scaler.transform([features_from_img(ch) for ch in chunks])) 
@@ -134,7 +134,7 @@ I'm using data from the last 15 frames.
 ```
 
 #### Boxes around non-zero areas
-Once the aggregated heat map is done, i'm using the following algorithm to draw boxes around 'islands':
+Once the aggregated heat-map is created, I'm using the following algorithm to draw boxes around 'islands':
 
 
 ```
@@ -153,5 +153,34 @@ def get_squares(d):
     return boxes
 
 ```
+
+### False positives, false negatives, problems, ideas to improve
+
+#### False positives
+
+As the classifier generates a lot of false positives, I'm 2 tactics to reduce them:
+
+1. Using overlapping search windows generated and adding up the results; after this using a threshold. This approach helps to filter some occasiaonal 'wiggling' negatives.
+
+2. Summarizing the 'heat-map' for the last N-frames and using a threshold. This also helps to stabilize the true positives, as they are more likely to appear on almost every frame.
+
+
+#### False negatives
+
+At some light conditions the pipeline can't identify vehicles. Maybe using more data would help, i.e. adding color information to the datapoints.
+
+#### Speed
+
+I'm trying to reduce the space where I'm looking for vehicles simply by reducing the searching area. Some other ways could also speed up the pipeline:
+
+1. Using HOG transform only once per frame
+2. Reducing the frame size
+3. Reducing the search area more extremely, for example look for the whole road only every 5 frames, and make a full search only where cars appeared in the previous frames.
+
+
+
+
+
+
 
 
