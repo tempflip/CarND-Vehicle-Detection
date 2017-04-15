@@ -2,7 +2,7 @@
 
 Please see the final project output here:
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/URKrWwJdz0/0.jpg)](https://www.youtube.com/watch?v=-URKrWwJdz0)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/-URKrWwJdz0/0.jpg)](https://www.youtube.com/watch?v=-URKrWwJdz0)
 
 
 Please see the [project jupyter notebook](./project.ipynb) here.
